@@ -1,0 +1,90 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<script type="text/javascript" 
+        src="http://ditu.google.cn/maps/api/js?sensor=true"></script>
+<script type="text/javascript">
+	var map;
+	var flag;
+	var polyline;
+  latlng = [
+  new google.maps.LatLng(23.14274,113.269904),
+  new google.maps.LatLng(23.144268,113.272078),
+  new google.maps.LatLng(23.144194,113.269392),
+  new google.maps.LatLng(23.142175,113.270739),
+  new google.maps.LatLng(23.143637,113.274189),
+  new google.maps.LatLng(23.145415,113.270425),
+  new google.maps.LatLng(23.142025,113.271925)
+  ];
+  var initialize= function() {
+  	flag = true;
+  	
+    var myLatlngCen = new google.maps.LatLng(23.144268,113.272078);  //地圖中心點
+    var myOptions = {
+           zoom: 16,
+           center: myLatlngCen,
+           mapTypeId: google.maps.MapTypeId.ROADMAP               //道路地圖
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    
+    var lineSymbol = {
+  		path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+	};
+    
+    polyline= new google.maps.Polyline({
+      path: latlng,
+      icons: [{
+   		 icon: lineSymbol,
+    	 offset: '100%'
+ 		 }],
+      strokeColor: "#ff0000",
+      strokeOpacity: 0.6,
+      strokeWeight: 5
+    });
+    polyline.se
+    //显示marker标志
+    for (var i = 0; i < latlng.length; i++) {
+      var marker = new google.maps.Marker({
+        position:latlng[i],
+        map:map,
+        icon:'marker1.png',
+      
+      })
+      showinfomessage(map,marker,i);
+    
+    };
+
+    console.log(1323)
+  }
+  var titles;
+  function showinfomessage(map,marker,number){
+    titles = ["明代古城墙","广州博物馆(镇海楼)","五羊石雕","中山纪念碑","广州美术馆","绍武君臣冢","伍廷芳墓"];
+    var infowindow = new google.maps.InfoWindow({
+      content: titles[number],
+    });
+    google.maps.event.addListener(marker,'click',function(){
+
+      infowindow.open(map,marker);
+
+    });
+  }
+
+
+
+
+  var showroute = function(){
+  	var route = [
+    	   new google.maps.LatLng(37.7671, -122.4206),
+    	   new google.maps.LatLng(34.0485, -118.2568)
+       ];
+    
+	polyline.setVisible(flag);
+	flag = !flag;
+	polyline.setMap(map);
+  }
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>
